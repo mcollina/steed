@@ -1,6 +1,17 @@
 ![logo][logo-url]
 
 # steed
-Let's put a horse in your JS! A Control-Flow library for JS that make your application faster
+
+Horsepower for your modules.
+
+## Acknowledgements
+
+Steed is sponsored by [nearForm](http://nearform.com).
+
+The steed logo was created, with thanks, by [Dean McDonnell](https:/github.com/mcdonnelldean)
+
+## License
+
+MIT
 
 [logo-url]: https://rawgit.com/mcollina/steed/master/assets/banner.svg
