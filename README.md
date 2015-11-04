@@ -8,7 +8,7 @@ Horsepower for your modules.
 
 Steed is sponsored by [nearForm](http://nearform.com).
 
-The steed logo was created, with thanks, by [Dean McDonnell](https:/github.com/mcdonnelldean)
+The steed logo was created, with thanks, by [Dean McDonnell](https://github.com/mcdonnelldean)
 
 ## License
 
