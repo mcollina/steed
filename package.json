@@ -1,0 +1,30 @@
+{
+  "name": "steed",
+  "version": "0.0.1",
+  "description": "Let's put a horse in your JS! A Control-Flow library for JS that make your application faster",
+  "main": "steed.js",
+  "scripts": {
+    "test": "tape test.js | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcollina/steed.git"
+  },
+  "keywords": [
+    "control",
+    "flow",
+    "async",
+    "series",
+    "parallel"
+  ],
+  "author": "Matteo Collina <hello@matteocollina.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcollina/steed/issues"
+  },
+  "homepage": "https://github.com/mcollina/steed#readme",
+  "devDependencies": {
+    "tap-spec": "^4.1.0",
+    "tape": "^4.2.2"
+  }
+}
