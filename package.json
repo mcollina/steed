@@ -1,7 +1,7 @@
 {
   "name": "steed",
   "version": "0.0.1",
-  "description": "Let's put a horse in your JS! A Control-Flow library for JS that make your application faster",
+  "description": "horsepower for your modules",
   "main": "steed.js",
   "scripts": {
     "test": "tape test.js | tap-spec"
