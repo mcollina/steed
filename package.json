@@ -4,7 +4,7 @@
   "description": "horsepower for your modules",
   "main": "steed.js",
   "scripts": {
-    "test": "tape test.js | tap-spec"
+    "test": "standard && tape test.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,15 @@
   },
   "homepage": "https://github.com/mcollina/steed#readme",
   "devDependencies": {
+    "standard": "^5.4.1",
     "tap-spec": "^4.1.0",
     "tape": "^4.2.2"
+  },
+  "dependencies": {
+    "fastfall": "^1.4.0",
+    "fastparallel": "^2.1.0",
+    "fastq": "^1.3.0",
+    "fastseries": "^1.6.0",
+    "reusify": "^1.0.0"
   }
 }
