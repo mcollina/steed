@@ -340,7 +340,7 @@ queue.push(42, function (err, result) {
 })
 
 function worker (arg, cb) {
-  cb(null, 42 * 2)
+  cb(null, arg * 2)
 }
 ```
 
