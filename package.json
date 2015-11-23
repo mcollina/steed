@@ -1,6 +1,6 @@
 {
   "name": "steed",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "horsepower for your modules",
   "main": "steed.js",
   "scripts": {
