@@ -30,9 +30,9 @@
   },
   "dependencies": {
     "fastfall": "^1.4.0",
-    "fastparallel": "^2.1.0",
+    "fastparallel": "^2.2.0",
     "fastq": "^1.3.0",
-    "fastseries": "^1.6.0",
+    "fastseries": "^1.7.0",
     "reusify": "^1.0.0"
   }
 }

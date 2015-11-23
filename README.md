@@ -5,13 +5,14 @@
 Horsepower for your modules.
 
 __Steed__ is an alternative to [async](http://npm.im/async) that is
-~50% faster. It is not currently on-par with async in term of features.
+~50-100% faster. It is not currently on-par with async in term of features.
 Please help us!
 
 We argue that you can only build a callback-based control flow library
 that is as fast as steed (as of 2015), but not faster (within 10% range):
 such a library is [neo-async](http://npm.im/neo-async), but it has
-higher memory usage.
+higher memory usage. __Steed__ allocates no functions after it has
+reached the maximum load, removing work for the GC.
 
 * <a href="#install">Installation</a>
 * <a href="#api">API</a>
@@ -78,15 +79,16 @@ steed.parallel({
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
 
-* non-reusable `setImmediate`: 2085ms
-* `async.parallel`: 3784ms
-* `insync.parallel`: 12006ms
-* `items.parallel`: 4457ms
-* `parallelize`: 6815ms
-* `fastparallel` with results: 2463ms
+* non-reusable `setImmediate`: 1781ms
+* `async.parallel`: 3484ms
+* `neoAsync.parallel`: 2162ms
+* `insync.parallel`: 10252ms
+* `items.parallel`: 3725ms
+* `parallelize`: 2928ms
+* `fastparallel` with results: 2139ms
 
-These benchmarks where taken via `bench.js` on node v4.1.0, on a MacBook
-Pro Retina Mid 2015.
+These benchmarks where taken on node v4.1.0, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="series"></a>
@@ -129,12 +131,13 @@ steed.series({
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
 
-* non-reusable `setImmediate`: 4013ms
-* `async.series`: 6216ms
-* `fastseries` with results: 4225ms
+* non-reusable `setImmediate`: 3887ms
+* `async.series`: 5981ms
+* `neoAsync.series`: 4338ms
+* `fastseries` with results: 4096ms
 
-These benchmarks where taken via `bench.js` on node 4.2.2, on a MacBook
-Pro Retina 2014.
+These benchmarks where taken on node v4.2.2, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="waterfall"></a>
@@ -165,14 +168,29 @@ steed.waterfall([
   })
 ```
 
+Benchmark for doing 3 calls `setImmediate` 100 thousands times:
+
+* non-reusable setImmediate: 418ms
+* `async.waterfall`: 1174ms
+* `run-waterfall`: 1432ms
+* `insync.wasterfall`: 1174ms
+* `neo-async.wasterfall`: 469ms
+* `waterfallize`: 749ms
+* `fastfall`: 460ms
+
+These benchmarks where taken on node v4.2.2, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
+
 -------------------------------------------------------
 <a name="each"></a>
-### steed.each(array, iterator(item, cb), [, done(err)])
+### steed.each(array, iterator(item, cb), [, done()])
 
 Iterate over all elements of the given array asynchronosly and in
 parallel.
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
+
+`each` does not handle errors, if you need errors, use [`map`](#map).
 
 Uses [fastparallel](http://npm.im/fastparallel).
 
@@ -188,20 +206,22 @@ steed.each(input, function (num, cb) {
     console.log(res)
     cb(null)
   })
-}, function (err) {
-  console.log(err)
+}, function () {
+  console.log()
 })
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
 
-* non-reusable `setImmediate`: 2085ms
-* `async.each`: 2959ms
-* `insync.each`: 2698ms
-* `fastparallel` each: 2211ms
+* non-reusable `setImmediate`: 1781ms
+* `async.each`: 2621ms
+* `neoAsync.each`: 2156ms
+* `insync.parallel`: 10252ms
+* `insync.each`: 2397ms
+* `fastparallel` each: 1941ms
 
-These benchmarks where taken via `bench.js` on node v4.1.0, on a MacBook
-Pro Retina Mid 2015.
+These benchmarks where taken on node v4.2.2, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="eachSeries"></a>
@@ -211,6 +231,8 @@ Iterate over all elements of the given array asynchronosly and in
 series.
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
+
+`eachSeries` does not handle errors, if you need errors, use [`mapSeries`](#mapSeries).
 
 Uses [fastseries](http://npm.im/fastseries).
 
@@ -232,12 +254,13 @@ steed.eachSeries(input, function (num, cb) {
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
 
-* non-reusable `setImmediate`: 4013ms
-* `async.eachSeries`: 5158ms
-* `fastseries` each: 4259ms
+* non-reusable `setImmediate`: 3887ms
+* `async.mapSeries`: 5540ms
+* `neoAsync.eachSeries`: 4195ms
+* `fastseries` each: 4168ms
 
-These benchmarks where taken via `bench.js` on node 4.2.2, on a MacBook
-Pro Retina 2014.
+These benchmarks where taken on node v4.2.2, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="map"></a>
@@ -270,13 +293,14 @@ steed.map(input, function (num, cb) {
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
 
-* non-reusable `setImmediate`: 2085ms
-* `async.map`: 3656ms
-* `insync.map`: 11402ms
-* `fastparallel` map: 2456ms
+* non-reusable `setImmediate`: 1781ms
+* `async.map`: 3054ms
+* `neoAsync.map`: 2080ms
+* `insync.map`: 9700ms
+* `fastparallel` map: 2102ms
 
-These benchmarks where taken via `bench.js` on node v4.1.0, on a MacBook
-Pro Retina Mid 2015.
+These benchmarks where taken on node v4.2.2, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="mapSeries"></a>
@@ -309,12 +333,13 @@ steed.mapSeries(input, function (num, cb) {
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
 
-* non-reusable `setImmediate`: 4013ms
-* `async.mapSeries`: 5660ms
-* `fastseries` map: 4171ms
+* non-reusable `setImmediate`: 3887ms
+* `async.mapSeries`: 5540ms
+* `neoAsync.mapSeries`: 4237ms
+* `fastseries` map: 4032ms
 
-These benchmarks where taken via `bench.js` on node 4.2.2, on a MacBook
-Pro Retina 2014.
+These benchmarks where taken on node v4.2.2, on a MacBook
+Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="queue"></a>
