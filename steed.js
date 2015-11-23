@@ -45,6 +45,14 @@ function parallel (funcs, cb) {
   }
 }
 
+function series (funcs, cb) {
+  if (Array.isArray(funcs)) {
+    _ser(null, funcs, null, cb)
+  } else {
+    _handleObjectMap(_ser, funcs, cb)
+  }
+}
+
 function _handleObjectMap (iterator, funcs, cb) {
   var keys = Object.keys(funcs)
   var toCall = new Array(keys.length)
@@ -71,12 +79,4 @@ function mapResults (err, results) {
   }
 
   this.cb(null, toReturn)
-}
-
-function series (funcs, cb) {
-  if (Array.isArray(funcs)) {
-    _ser(null, funcs, null, cb)
-  } else {
-    _handleObjectMap(_ser, funcs, cb)
-  }
 }
