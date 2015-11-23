@@ -5,11 +5,13 @@
 Horsepower for your modules.
 
 __Steed__ is an alternative to [async](http://npm.im/async) that is
-~50% faster. We argue that you can
-only build a control flow library that is as fast as steed (as of 2015),
-but not faster (within 10%).
-It is not currently on-par with async in term of features. Please help
-us!
+~50% faster. It is not currently on-par with async in term of features.
+Please help us!
+
+We argue that you can only build a callback-based control flow library
+that is as fast as steed (as of 2015), but not faster (within 10% range):
+such a library is [neo-async](http://npm.im/neo-async), but it has
+higher memory usage.
 
 * <a href="#install">Installation</a>
 * <a href="#api">API</a>
