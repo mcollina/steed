@@ -30,10 +30,6 @@ function somethingImmediate () {
   }
 }
 
-function somethingP (arg, cb) {
-  setImmediate(cb)
-}
-
 function somethingA (cb) {
   setImmediate(cb)
 }
