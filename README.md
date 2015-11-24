@@ -8,12 +8,6 @@ __Steed__ is an alternative to [async](http://npm.im/async) that is
 ~50-100% faster. It is not currently on-par with async in term of features.
 Please help us!
 
-We argue that you can only build a callback-based control flow library
-that is as fast as steed (as of 2015), but not faster (within 10% range):
-such a library is [neo-async](http://npm.im/neo-async), but it has
-higher memory usage. __Steed__ allocates no functions after it has
-reached the maximum load, removing work for the GC.
-
 * <a href="#install">Installation</a>
 * <a href="#api">API</a>
 * <a href="#caveats">Caveats</a>
@@ -62,9 +56,9 @@ Uses [fastparallel](http://npm.im/fastparallel).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 steed.parallel([
   function a (cb){
@@ -119,9 +113,9 @@ Uses [fastseries](http://npm.im/fastseries).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 steed.series([
   function a (cb){
@@ -170,9 +164,9 @@ Uses [fastfall](http://npm.im/fastfall).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 steed.waterfall([
   function a (cb) {
@@ -222,9 +216,9 @@ Uses [fastparallel](http://npm.im/fastparallel).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 var input = [1, 2, 3]
 
@@ -270,9 +264,9 @@ Uses [fastseries](http://npm.im/fastseries).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 var input = [1, 2, 3]
 
@@ -315,9 +309,9 @@ Uses [fastparallel](http://npm.im/fastparallel).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 var input = [1, 2, 3]
 
@@ -361,9 +355,9 @@ Uses [fastseries](http://npm.im/fastseries).
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 var input = [1, 2, 3]
 
@@ -404,9 +398,9 @@ Arguments:
 Example:
 
 ```js
-var steed = require('steed')
+var steed = require('steed')()
 // or
-// var steed = require('steed')()
+// var steed = require('steed')
 
 var queue = steed.queue(worker, 1)
 
