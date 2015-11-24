@@ -40,12 +40,13 @@ reached the maximum load, removing work for the GC.
 
 -------------------------------------------------------
 <a name="parallel"></a>
-### steed.parallel(tasks[, done(err, results)])
+### steed.parallel([that,] tasks[, done(err, results)])
 
 Executes a series of tasks in parallel.
 
 `tasks` can either be an array of functions, or an object where each
 property is a function. `done` will be called with the results.
+The `that` argument will set `this` for each task and `done` callback.
 
 Uses [fastparallel](http://npm.im/fastparallel).
 
@@ -92,12 +93,13 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="series"></a>
-### steed.series(tasks[, done(err, results)])
+### steed.series([that,] tasks[, done(err, results)])
 
 Executes a series of tasks in series.
 
 `tasks` can either be an array of functions, or an object where each
 property is a function. `done` will be called with the results.
+The `that` argument will set `this` for each task and `done` callback.
 
 Uses [fastseries](http://npm.im/fastseries).
 
@@ -183,12 +185,14 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="each"></a>
-### steed.each(array, iterator(item, cb), [, done()])
+### steed.each([that,] array, iterator(item, cb), [, done()])
 
 Iterate over all elements of the given array asynchronosly and in
 parallel.
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
+
+The `that` argument will set `this` for each task and `done` callback.
 
 `each` does not handle errors, if you need errors, use [`map`](#map).
 
@@ -225,12 +229,14 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="eachSeries"></a>
-### steed.eachSeries(array, iterator(item, cb), [, done(err)])
+### steed.eachSeries([that,] array, iterator(item, cb), [, done(err)])
 
 Iterate over all elements of the given array asynchronosly and in
 series.
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
+
+The `that` argument will set `this` for each task and `done` callback.
 
 `eachSeries` does not handle errors, if you need errors, use [`mapSeries`](#mapSeries).
 
@@ -264,11 +270,13 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="map"></a>
-### steed.map(array, iterator(item, cb), [, done(err, results)])
+### steed.map([that,] array, iterator(item, cb), [, done(err, results)])
 
 Performs a map operation over all elements of the given array asynchronosly and in
 parallel. The result is an a array where all items have been replaced by
 the result of `iterator`.
+
+The `that` argument will set `this` for each task and `done` callback.
 
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
@@ -304,7 +312,7 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 
 -------------------------------------------------------
 <a name="mapSeries"></a>
-### steed.mapSeries(array, iterator(item, cb), [, done(err, results)])
+### steed.mapSeries([that,] array, iterator(item, cb), [, done(err, results)])
 
 Performs a map operation over all elements of the given array asynchronosly and in
 series. The result is an a array where all items have been replaced by
@@ -312,6 +320,8 @@ the result of `iterator`.
 
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
+
+The `that` argument will set `this` for each task and `done` callback.
 
 Uses [fastseries](http://npm.im/fastseries).
 
