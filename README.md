@@ -29,6 +29,7 @@ reached the maximum load, removing work for the GC.
 
 ## API
 
+* <a href="#steed"><code><b>steed()</b></code></a>
 * <a href="#parallel"><code>steed#<b>parallel()</b></code></a>
 * <a href="#series"><code>steed#<b>series()</b></code></a>
 * <a href="#waterfall"><code>steed#<b>waterfall()</b></code></a>
@@ -37,6 +38,14 @@ reached the maximum load, removing work for the GC.
 * <a href="#map"><code>steed#<b>map()</b></code></a>
 * <a href="#mapSeries"><code>steed#<b>mapSeries()</b></code></a>
 * <a href="#queue"><code>steed#<b>queue()</b></code></a>
+
+-------------------------------------------------------
+<a name="steed"></a>
+### steed()
+
+Build an instance of steed, this step is not needed but welcomed to for
+greated performance. Each steed utility likes being used for the same
+purpose.
 
 -------------------------------------------------------
 <a name="parallel"></a>
@@ -53,6 +62,10 @@ Uses [fastparallel](http://npm.im/fastparallel).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 steed.parallel([
   function a (cb){
     cb(null, 'a');
@@ -106,6 +119,10 @@ Uses [fastseries](http://npm.im/fastseries).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 steed.series([
   function a (cb){
     cb(null, 'a');
@@ -153,6 +170,10 @@ Uses [fastfall](http://npm.im/fastfall).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 steed.waterfall([
   function a (cb) {
     console.log('called a')
@@ -201,6 +222,10 @@ Uses [fastparallel](http://npm.im/fastparallel).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 var input = [1, 2, 3]
 
 steed.each(input, function (num, cb) {
@@ -245,6 +270,10 @@ Uses [fastseries](http://npm.im/fastseries).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 var input = [1, 2, 3]
 
 steed.eachSeries(input, function (num, cb) {
@@ -286,6 +315,10 @@ Uses [fastparallel](http://npm.im/fastparallel).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 var input = [1, 2, 3]
 
 steed.map(input, function (num, cb) {
@@ -328,6 +361,10 @@ Uses [fastseries](http://npm.im/fastseries).
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 var input = [1, 2, 3]
 
 steed.mapSeries(input, function (num, cb) {
@@ -367,6 +404,10 @@ Arguments:
 Example:
 
 ```js
+var steed = require('steed')
+// or
+// var steed = require('steed')()
+
 var queue = steed.queue(worker, 1)
 
 queue.push(42, function (err, result) {

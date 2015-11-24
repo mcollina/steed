@@ -1,89 +1,96 @@
 'use strict'
 
 var nr = { results: false }
-var _parNr = require('fastparallel')(nr)
-var _serNr = require('fastseries')(nr)
-var _par = require('fastparallel')()
-var _ser = require('fastseries')()
-var _fall = require('fastfall')()
-var _q = require('fastq')
+var fastparallel = require('fastparallel')
+var fastseries = require('fastseries')
+var fastfall = require('fastfall')
+var fastq = require('fastq')
 
-var steed = {
-  each: each,
-  map: map,
-  eachSeries: eachSeries,
-  mapSeries: mapSeries,
-  parallel: parallel,
-  series: series,
-  waterfall: _fall,
-  queue: _q
-}
-
-module.exports = steed
-
-function each (that, array, func, cb) {
-  if (!func || typeof func === 'function' && typeof array === 'function') {
-    cb = func
-    func = array
-    array = that
-    that = null
+function steed (context) {
+  if (!context) {
+    context = {}
   }
-  _parNr(that, func, array, cb)
-}
 
-function eachSeries (that, array, func, cb) {
-  if (!func || typeof func === 'function' && typeof array === 'function') {
-    cb = func
-    func = array
-    array = that
-    that = null
-  }
-  _serNr(that, func, array, cb)
-}
+  var _parNr = fastparallel(nr)
+  var _serNr = fastseries(nr)
+  var _par = fastparallel()
+  var _ser = fastseries()
 
-function map (that, array, func, cb) {
-  if (!func || typeof func === 'function' && typeof array === 'function') {
-    cb = func
-    func = array
-    array = that
-    that = null
-  }
-  _par(that, func, array, cb)
-}
+  context.each = each
+  context.map = map
+  context.eachSeries = eachSeries
+  context.mapSeries = mapSeries
+  context.parallel = parallel
+  context.series = series
+  context.waterfall = fastfall()
+  context.queue = fastq
 
-function mapSeries (that, array, func, cb) {
-  if (!func || typeof func === 'function' && typeof array === 'function') {
-    cb = func
-    func = array
-    array = that
-    that = null
-  }
-  _ser(that, func, array, cb)
-}
+  return context
 
-function parallel (that, funcs, cb) {
-  if (!funcs || typeof funcs === 'function') {
-    cb = funcs
-    funcs = that
-    that = null
+  function each (that, array, func, cb) {
+    if (!func || typeof func === 'function' && typeof array === 'function') {
+      cb = func
+      func = array
+      array = that
+      that = null
+    }
+    _parNr(that, func, array, cb)
   }
-  if (Array.isArray(funcs)) {
-    _par(that, funcs, null, cb)
-  } else {
-    _handleObjectMap(that, _par, funcs, cb)
-  }
-}
 
-function series (that, funcs, cb) {
-  if (!funcs || typeof funcs === 'function') {
-    cb = funcs
-    funcs = that
-    that = null
+  function eachSeries (that, array, func, cb) {
+    if (!func || typeof func === 'function' && typeof array === 'function') {
+      cb = func
+      func = array
+      array = that
+      that = null
+    }
+    _serNr(that, func, array, cb)
   }
-  if (Array.isArray(funcs)) {
-    _ser(that, funcs, null, cb)
-  } else {
-    _handleObjectMap(that, _ser, funcs, cb)
+
+  function map (that, array, func, cb) {
+    if (!func || typeof func === 'function' && typeof array === 'function') {
+      cb = func
+      func = array
+      array = that
+      that = null
+    }
+    _par(that, func, array, cb)
+  }
+
+  function mapSeries (that, array, func, cb) {
+    if (!func || typeof func === 'function' && typeof array === 'function') {
+      cb = func
+      func = array
+      array = that
+      that = null
+    }
+    _ser(that, func, array, cb)
+  }
+
+  function parallel (that, funcs, cb) {
+    if (!funcs || typeof funcs === 'function') {
+      cb = funcs
+      funcs = that
+      that = null
+    }
+    if (Array.isArray(funcs)) {
+      _par(that, funcs, null, cb)
+    } else {
+      _handleObjectMap(that, _par, funcs, cb)
+    }
+  }
+
+  function series (that, funcs, cb) {
+    if (!funcs || typeof funcs === 'function') {
+      cb = funcs
+      funcs = that
+      that = null
+    }
+    if (Array.isArray(funcs)) {
+      _ser(that, funcs, null, cb)
+    } else {
+      _handleObjectMap(that, _ser, funcs, cb)
+    }
   }
 }
 
@@ -115,3 +122,5 @@ function mapResults (err, results) {
 
   this.cb(null, toReturn)
 }
+
+module.exports = steed(steed)
