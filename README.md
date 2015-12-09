@@ -37,8 +37,8 @@ Please help us!
 <a name="steed"></a>
 ### steed()
 
-Build an instance of steed, this step is not needed but welcomed to for
-greated performance. Each steed utility likes being used for the same
+Build an instance of steed, this step is not needed but welcomed for
+greater performance. Each steed utility likes being used for the same
 purpose.
 
 -------------------------------------------------------
@@ -250,7 +250,7 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 <a name="eachSeries"></a>
 ### steed.eachSeries([that,] array, iterator(item, cb), [, done(err)])
 
-Iterate over all elements of the given array asynchronosly and in
+Iterate over all elements of the given array asynchronously and in
 series.
 Calls `iterator` with an item and a callback. Calls `done` when all have
 been processed.
@@ -295,7 +295,7 @@ Pro Retina Mid 2014 (i7, 16GB of RAM).
 <a name="map"></a>
 ### steed.map([that,] array, iterator(item, cb), [, done(err, results)])
 
-Performs a map operation over all elements of the given array asynchronosly and in
+Performs a map operation over all elements of the given array asynchronously and in
 parallel. The result is an a array where all items have been replaced by
 the result of `iterator`.
 
