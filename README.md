@@ -74,15 +74,53 @@ steed.parallel([
 
 // an example using an object instead of an array
 steed.parallel({
-  a: function a (cb){
+  a: function a1 (cb){
     cb(null, 1)
   },
-  b: function b (cb){
+  b: function b1 (cb){
     cb(null, 2)
   }
 }, function(err, results) {
   // results is  { a: 1, b: 2}
 })
+
+// an example using that parameter
+// preferred form for max speed
+function run (prefix, a, b, cb) {
+  steed.parallel(new State(prefix, a, b, cb), [aT, bT], doneT)
+}
+
+// can be optimized by V8 using an hidden class
+function State (prefix, a, b, cb) {
+  this.a = a
+  this.b = b
+  this.cb = cb
+  this.prefix = prefix
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function aT (cb){
+  cb(null, this.a);
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function bT (cb){
+  cb(null, this.b);
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function doneT (err, results) {
+  if (results) {
+    results.unshift(this.prefix)
+    results = results.join(' ')
+  }
+  this.cb(err, results)
+}
+
+run('my name is', 'matteo', 'collina', console.log)
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
@@ -140,6 +178,44 @@ steed.series({
 }, function(err, results) {
   // results is  { a: 1, b: 2}
 })
+
+// an example using that parameter
+// preferred form for max speed
+function run (prefix, a, b, cb) {
+  steed.series(new State(prefix, a, b, cb), [aT, bT], doneT)
+}
+
+// can be optimized by V8 using an hidden class
+function State (prefix, a, b, cb) {
+  this.a = a
+  this.b = b
+  this.cb = cb
+  this.prefix = prefix
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function aT (cb){
+  cb(null, this.a);
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function bT (cb){
+  cb(null, this.b);
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function doneT (err, results) {
+  if (results) {
+    results.unshift(this.prefix)
+    results = results.join(' ')
+  }
+  this.cb(err, results)
+}
+
+run('my name is', 'matteo', 'collina', console.log)
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
@@ -183,6 +259,40 @@ steed.waterfall([
   }], function result (err, a, b, c) {
     console.log('result arguments', arguments)
   })
+
+// preferred version for maximum speed
+function run (word, cb) {
+  steed.waterfall(new State(cb), [
+    aT, bT, cT,
+  ], cb)
+}
+
+// can be optimized by V8 using an hidden class
+function State (value) {
+  this.value = value
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function aT (cb) {
+  console.log(this.value)
+  console.log('called a')
+  cb(null, 'a')
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function bT (a, cb) {
+  console.log('called b with:', a)
+  cb(null, 'a', 'b')
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function cT (a, b, cb) {
+  console.log('called c with:', a, b)
+  cb(null, 'a', 'b', 'c')
+}
 ```
 
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
@@ -193,7 +303,7 @@ Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 * `insync.wasterfall`: 1174ms
 * `neo-async.wasterfall`: 469ms
 * `waterfallize`: 749ms
-* `fastfall`: 460ms
+* `fastfall`: 452ms
 
 These benchmarks where taken on node v4.2.2, on a MacBook
 Pro Retina Mid 2014 (i7, 16GB of RAM).
@@ -221,17 +331,33 @@ var steed = require('steed')()
 // var steed = require('steed')
 
 var input = [1, 2, 3]
+var factor = 2
 
 steed.each(input, function (num, cb) {
-  console.log(num)
-  setImmediate(function () {
-    var res = input[i++] * 2
-    console.log(res)
-    cb(null)
-  })
+  console.log(num * factor)
+  setImmediate(cb)
 }, function () {
-  console.log()
+  console.log('done')
 })
+
+// preferred version for max speed
+function run (factor, args, cb) {
+  steed.each(new State(factor), work, cb)
+}
+
+// can be optimizied by V8 using an hidden class
+function State (factor) {
+  this.factor = factor
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function work (num, cb) {
+  console.log(num * this.factor)
+  cb()
+}
+
+run(factor, input, console.log)
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
@@ -269,16 +395,33 @@ var steed = require('steed')()
 // var steed = require('steed')
 
 var input = [1, 2, 3]
+var factor = 2
 
 steed.eachSeries(input, function (num, cb) {
-  setImmediate(function () {
-    var res = input[i++] * 2
-    console.log(res)
-    cb(null)
-  })
+  console.log(num * factor)
+  setImmediate(cb)
 }, function (err) {
   console.log(err)
 })
+
+// preferred version for max speed
+function run (factor, args, cb) {
+  steed.eachSeries(new State(factor), work, cb)
+}
+
+// can be optimizied by V8 using an hidden class
+function State (factor) {
+  this.factor = factor
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function work (num, cb) {
+  console.log(num * this.factor)
+  cb()
+}
+
+run(factor, input, console.log)
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
@@ -314,16 +457,43 @@ var steed = require('steed')()
 // var steed = require('steed')
 
 var input = [1, 2, 3]
+var factor = 2
 
 steed.map(input, function (num, cb) {
-  console.log(num)
-  setImmediate(function () {
-    var res = input[i++] * 2
-    cb(null, res)
-  })
+  setImmediate(cb, null, num * factor)
 }, function (err, results) {
-  console.log(err, results)
+  if (err) { throw err }
+
+  console.log(results.reduce(sum))
 })
+
+function sum (acc, num) {
+  return acc + num
+}
+
+// preferred version for max speed
+function run (factor, args, cb) {
+  steed.map(new State(factor, cb), args, work, done)
+}
+
+// can be optimizied by V8 using an hidden class
+function State (factor, cb) {
+  this.factor = factor
+  this.cb = cb
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function work (num, cb) {
+  setImmediate(cb, null, num * this.factor)
+}
+
+function done (err, results) {
+  results = results || []
+  this.cb(err, results.reduce(sum))
+}
+
+run(2, [1, 2, 3], console.log)
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
@@ -360,16 +530,43 @@ var steed = require('steed')()
 // var steed = require('steed')
 
 var input = [1, 2, 3]
+var factor = 2
 
 steed.mapSeries(input, function (num, cb) {
-  console.log(num)
-  setImmediate(function () {
-    var res = input[i++] * 2
-    cb(null, res)
-  })
+  setImmediate(cb, null, num * factor)
 }, function (err, results) {
-  console.log(err, results)
+  if (err) { throw err }
+
+  console.log(results.reduce(sum))
 })
+
+function sum (acc, num) {
+  return acc + num
+}
+
+// preferred version for max speed
+function run (factor, args, cb) {
+  steed.mapSeries(new State(factor, cb), args, work, done)
+}
+
+// can be optimizied by V8 using an hidden class
+function State (factor, cb) {
+  this.factor = factor
+  this.cb = cb
+}
+
+// because it is not a closure inside run()
+// v8 can optimize this function
+function work (num, cb) {
+  setImmediate(cb, null, num * this.factor)
+}
+
+function done (err, results) {
+  results = results || []
+  this.cb(err, results.reduce(sum))
+}
+
+run(2, [1, 2, 3], console.log)
 ```
 
 Benchmark for doing 3 calls `setImmediate` 1 million times:
