@@ -31,7 +31,7 @@
     "tape": "^4.2.2"
   },
   "dependencies": {
-    "fastfall": "^1.4.0",
+    "fastfall": "^1.5.0",
     "fastparallel": "^2.2.0",
     "fastq": "^1.3.0",
     "fastseries": "^1.7.0",
