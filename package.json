@@ -4,7 +4,8 @@
   "description": "horsepower for your modules",
   "main": "steed.js",
   "scripts": {
-    "test": "standard && tape test.js | tap-spec"
+    "test": "standard && tape test.js | tap-spec",
+    "coverage": "istanbul cover tape test.js; cat coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,9 @@
   },
   "homepage": "https://github.com/mcollina/steed#readme",
   "devDependencies": {
+    "coveralls": "^2.11.6",
     "fastbench": "^1.0.0",
+    "istanbul": "^0.4.1",
     "neo-async": "^1.7.0",
     "standard": "^5.4.1",
     "tap-spec": "^4.1.0",
