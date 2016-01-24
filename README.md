@@ -22,6 +22,8 @@ Please help us!
 
 [![js-standard-style](https://raw.githubusercontent.com/feross/standard/master/badge.png)](https://github.com/feross/standard)
 
+Watch Matteo presenting Steed at Node.js Interactive 2015: https://www.youtube.com/watch?v=_0W_822Dijg.
+
 ## Install
 
 `npm i steed --save`
