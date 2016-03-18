@@ -659,7 +659,7 @@ The steed logo was created, with thanks, by [Dean McDonnell](https://github.com/
 
 MIT
 
-[logo-url]: https://rawgit.com/mcollina/steed/master/assets/banner.svg
+[logo-url]: https://raw.githubusercontent.com/mcollina/steed/master/assets/banner.png
 [npm-badge]: https://badge.fury.io/js/steed.svg
 [npm-url]: https://badge.fury.io/js/steed
 [travis-badge]: https://api.travis-ci.org/mcollina/steed.svg
