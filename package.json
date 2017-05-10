@@ -34,10 +34,10 @@
     "tape": "^4.2.2"
   },
   "dependencies": {
-    "fastfall": "^1.5.0",
-    "fastparallel": "^2.2.0",
-    "fastq": "^1.3.0",
-    "fastseries": "^1.7.0",
-    "reusify": "^1.0.0"
+    "fastfall": "^1.5.1",
+    "fastparallel": "^2.3.0",
+    "fastq": "^1.5.0",
+    "fastseries": "^1.7.2",
+    "reusify": "^1.0.1"
   }
 }
